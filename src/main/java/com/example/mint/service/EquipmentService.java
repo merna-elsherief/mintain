@@ -14,42 +14,58 @@ public class EquipmentService {
     @Autowired private ManufactoryRepo factoryRepo;
     @Autowired private CharacteristicRepo charRepo;
 
-    public MaintainableUnitType saveType(MaintainableUnitType type) {
-        return typeRepo.save(type);
+    public List<MaintainableUnitType> getAllTypes() { return typeRepo.findAll(); }
+    public MaintainableUnitType getTypeById(String id) { return typeRepo.findById(id).orElse(null); }
+    public MaintainableUnitType saveType(MaintainableUnitType t) { return typeRepo.save(t); }
+    public void deleteType(String id) { typeRepo.deleteById(id); }
+
+    public MaintainableUnit saveModel(MaintainableUnit m) {
+        m.setParentId("0");
+        m.setUnitLevel(1);
+        return unitRepo.save(m);
     }
 
-    public List<MaintainableUnitType> getAllTypes() {
-        return typeRepo.findAll();
+    public MaintainableUnit updateModel(String id, MaintainableUnit details) {
+        return unitRepo.findById(id).map(existing -> {
+            existing.setUnitNo(details.getUnitNo());
+            existing.setUnitName(details.getUnitName());
+            existing.setMainTypeId(details.getMainTypeId());
+            existing.setUnitLevel(1);
+            existing.setParentId("0");
+            return unitRepo.save(existing);
+        }).orElse(null);
     }
 
-    public MaintainableUnit saveModel(MaintainableUnit model) {
-        model.setParentId("0");
-        model.setUnitLevel(1);
-        return unitRepo.save(model);
+    public MaintainableUnit saveEquipment(MaintainableUnit e) {
+        e.setUnitLevel(3);
+        return unitRepo.save(e);
     }
 
-    public MaintainableUnit saveEquipment(MaintainableUnit equipment) {
-        equipment.setUnitLevel(3);
-        return unitRepo.save(equipment);
+    public MaintainableUnit updateEquipment(String id, MaintainableUnit details) {
+        return unitRepo.findById(id).map(existing -> {
+            existing.setUnitNo(details.getUnitNo());
+            existing.setUnitName(details.getUnitName());
+            existing.setManufacturer(details.getManufacturer());
+            existing.setParentId(details.getParentId());
+            existing.setUnitLevel(3);
+            return unitRepo.save(existing);
+        }).orElse(null);
     }
 
-    public MaintainableUnit updateUnit(MaintainableUnit unit) {
-        return unitRepo.save(unit);
-    }
+    public List<MaintainableUnit> getAllUnits() { return unitRepo.findAll(); }
+    public MaintainableUnit getUnitById(String id) { return unitRepo.findById(id).orElse(null); }
+    public void deleteUnit(String id) { unitRepo.deleteById(id); }
 
-    public void deleteUnit(String id) {
-        unitRepo.deleteById(id);
-    }
+    public Manufactory saveManufacturer(Manufactory f) { return factoryRepo.save(f); }
+    public OperationalCharacteristic saveChar(OperationalCharacteristic c) { return charRepo.save(c); }
 
-    public List<MaintainableUnit> getAllUnits() {
-        return unitRepo.findAll();
-    }
-
-    public Manufactory saveManufacturer(Manufactory factory) {
-        return factoryRepo.save(factory);
-    }
-
-    public OperationalCharacteristic saveCharacteristic(OperationalCharacteristic characteristic) {
-        return charRepo.save(characteristic);
+    public MaintainableUnitType updateType(String id, MaintainableUnitType details) {
+        return typeRepo.findById(id).map(existing -> {
+            existing.setTypeName(details.getTypeName());
+            existing.setNotes(details.getNotes());
+            existing.setEnAbbreviation(details.getEnAbbreviation());
+            existing.setBasicCounter(details.getBasicCounter());
+            return typeRepo.save(existing);
+        }).orElse(null);
     }
 }

@@ -12,26 +12,93 @@ public class EquipmentController {
 
     @Autowired private EquipmentService service;
 
-    // --- Types CRUD ---
-    @GetMapping("/types") public List<MaintainableUnitType> getTypes() { return service.getAllTypes(); }
-    @GetMapping("/types/{id}") public MaintainableUnitType getType(@PathVariable String id) { return service.getTypeById(id); }
-    @PostMapping("/types") public MaintainableUnitType addType(@RequestBody MaintainableUnitType t) { return service.saveType(t); }
-    @PutMapping("/types/{id}") public MaintainableUnitType updateType(@PathVariable String id, @RequestBody MaintainableUnitType t) { return service.updateType(id, t); }
-    @DeleteMapping("/types/{id}") public void deleteType(@PathVariable String id) { service.deleteType(id); }
+    @GetMapping("/types")
+    public List<MaintainableUnitType> getTypes() {
+        return service.getAllTypes();
+    }
 
-    // --- Models CRUD ---
-    @GetMapping("/models/{id}") public MaintainableUnit getModel(@PathVariable String id) { return service.getUnitById(id); }
-    @PostMapping("/models") public MaintainableUnit addModel(@RequestBody MaintainableUnit m) { return service.saveModel(m); }
-    @PutMapping("/models/{id}") public MaintainableUnit updateModel(@PathVariable String id, @RequestBody MaintainableUnit m) { return service.updateModel(id, m); }
+    @GetMapping("/types/{id}")
+    public MaintainableUnitType getType(@PathVariable String id) {
+        return service.getTypeById(id);
+    }
 
-    // --- Equipment CRUD ---
-    @GetMapping("/equipment/{id}") public MaintainableUnit getEquip(@PathVariable String id) { return service.getUnitById(id); }
-    @PostMapping("/equipment") public MaintainableUnit addEquip(@RequestBody MaintainableUnit e) { return service.saveEquipment(e); }
-    @PutMapping("/equipment/{id}") public MaintainableUnit updateEquip(@PathVariable String id, @RequestBody MaintainableUnit e) { return service.updateEquipment(id, e); }
+    @PostMapping("/types")
+    public MaintainableUnitType addType(@RequestBody MaintainableUnitType t) {
+        return service.saveType(t);
+    }
 
-    // --- Others ---
-    @GetMapping("/units") public List<MaintainableUnit> getAll() { return service.getAllUnits(); }
-    @DeleteMapping("/units/{id}") public void delete(@PathVariable String id) { service.deleteUnit(id); }
-    @PostMapping("/manufacturers") public Manufactory addFact(@RequestBody Manufactory f) { return service.saveManufacturer(f); }
-    @PostMapping("/characteristics") public OperationalCharacteristic addC(@RequestBody OperationalCharacteristic c) { return service.saveChar(c); }
+    @PutMapping("/types/{id}")
+    public MaintainableUnitType updateType(@PathVariable String id, @RequestBody MaintainableUnitType t) {
+        return service.updateType(id, t);
+    }
+
+    @DeleteMapping("/types/{id}")
+    public void deleteType(@PathVariable String id) {
+        service.deleteType(id);
+    }
+
+    @GetMapping("/models")
+    public List<MaintainableUnit> getAllModels() {
+        return service.getAllModelsOnly();
+    }
+
+    @GetMapping("/models/{id}")
+    public MaintainableUnit getModel(@PathVariable String id) {
+        return service.getUnitById(id);
+    }
+
+    @PostMapping("/models")
+    public MaintainableUnit addModel(@RequestBody MaintainableUnit m) {
+        return service.saveModel(m);
+    }
+
+    @PutMapping("/models/{id}")
+    public MaintainableUnit updateModel(@PathVariable String id, @RequestBody MaintainableUnit m) {
+        return service.updateModel(id, m);
+    }
+
+    @GetMapping("/equipment")
+    public List<MaintainableUnit> getAllEquipments() {
+        return service.getAllEquipmentsOnly();
+    }
+
+    @GetMapping("/equipment/{id}")
+    public MaintainableUnit getEquip(@PathVariable String id) {
+        return service.getUnitById(id);
+    }
+
+    @PostMapping("/equipment")
+    public MaintainableUnit addEquip(@RequestBody MaintainableUnit e) {
+        return service.saveEquipment(e);
+    }
+
+    @PutMapping("/equipment/{id}")
+    public MaintainableUnit updateEquip(@PathVariable String id, @RequestBody MaintainableUnit e) {
+        return service.updateEquipment(id, e);
+    }
+
+    @GetMapping("/units")
+    public List<MaintainableUnit> getAll() {
+        return service.getAllUnits();
+    }
+
+    @GetMapping("/test-count")
+    public String getCount() {
+        return "Total records: " + service.countAll();
+    }
+
+    @DeleteMapping("/units/{id}")
+    public void delete(@PathVariable String id) {
+        service.deleteUnit(id);
+    }
+
+    @PostMapping("/manufacturers")
+    public Manufactory addFact(@RequestBody Manufactory f) {
+        return service.saveManufacturer(f);
+    }
+
+    @PostMapping("/characteristics")
+    public OperationalCharacteristic addC(@RequestBody OperationalCharacteristic c) {
+        return service.saveChar(c);
+    }
 }

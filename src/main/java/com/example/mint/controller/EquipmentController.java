@@ -33,8 +33,9 @@ public class EquipmentController {
     }
 
     @DeleteMapping("/types/{id}")
-    public void deleteType(@PathVariable String id) {
+    public String deleteType(@PathVariable String id) {
         service.deleteType(id);
+        return "Type deleted successfully";
     }
 
     @GetMapping("/models")
@@ -88,8 +89,9 @@ public class EquipmentController {
     }
 
     @DeleteMapping("/units/{id}")
-    public void delete(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         service.deleteUnit(id);
+        return "Unit deleted successfully";
     }
 
     @PostMapping("/manufacturers")

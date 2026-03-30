@@ -22,7 +22,8 @@ public class EquipmentService {
     }
 
     public MaintainableUnitType getTypeById(String id) {
-        return typeRepo.findById(id).orElse(null);
+        return typeRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Type not found with ID: " + id));
     }
 
     public MaintainableUnitType saveType(MaintainableUnitType t) {
@@ -30,16 +31,20 @@ public class EquipmentService {
     }
 
     public MaintainableUnitType updateType(String id, MaintainableUnitType details) {
-        return typeRepo.findById(id).map(existing -> {
-            existing.setTypeName(details.getTypeName());
-            existing.setNotes(details.getNotes());
-            existing.setEnAbbreviation(details.getEnAbbreviation());
-            existing.setBasicCounter(details.getBasicCounter());
-            return typeRepo.save(existing);
-        }).orElse(null);
+        MaintainableUnitType existing = typeRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Update failed: Type ID " + id + " not found"));
+
+        existing.setTypeName(details.getTypeName());
+        existing.setNotes(details.getNotes());
+        existing.setEnAbbreviation(details.getEnAbbreviation());
+        existing.setBasicCounter(details.getBasicCounter());
+        return typeRepo.save(existing);
     }
 
     public void deleteType(String id) {
+        if (!typeRepo.existsById(id)) {
+            throw new RuntimeException("Delete failed: Type ID " + id + " not found");
+        }
         typeRepo.deleteById(id);
     }
 
@@ -55,14 +60,15 @@ public class EquipmentService {
     }
 
     public MaintainableUnit updateModel(String id, MaintainableUnit details) {
-        return unitRepo.findById(id).map(existing -> {
-            existing.setUnitNo(details.getUnitNo());
-            existing.setUnitName(details.getUnitName());
-            existing.setMainTypeId(details.getMainTypeId());
-            existing.setUnitLevel(1);
-            existing.setParentId("0");
-            return unitRepo.save(existing);
-        }).orElse(null);
+        MaintainableUnit existing = unitRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Update failed: Model ID " + id + " not found"));
+
+        existing.setUnitNo(details.getUnitNo());
+        existing.setUnitName(details.getUnitName());
+        existing.setMainTypeId(details.getMainTypeId());
+        existing.setUnitLevel(1);
+        existing.setParentId("0");
+        return unitRepo.save(existing);
     }
 
     public List<MaintainableUnit> getAllEquipmentsOnly() {
@@ -76,14 +82,15 @@ public class EquipmentService {
     }
 
     public MaintainableUnit updateEquipment(String id, MaintainableUnit details) {
-        return unitRepo.findById(id).map(existing -> {
-            existing.setUnitNo(details.getUnitNo());
-            existing.setUnitName(details.getUnitName());
-            existing.setManufacturer(details.getManufacturer());
-            existing.setParentId(details.getParentId());
-            existing.setUnitLevel(details.getUnitLevel());
-            return unitRepo.save(existing);
-        }).orElse(null);
+        MaintainableUnit existing = unitRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Update failed: Equipment ID " + id + " not found"));
+
+        existing.setUnitNo(details.getUnitNo());
+        existing.setUnitName(details.getUnitName());
+        existing.setManufacturer(details.getManufacturer());
+        existing.setParentId(details.getParentId());
+        existing.setUnitLevel(details.getUnitLevel());
+        return unitRepo.save(existing);
     }
 
     public List<MaintainableUnit> getAllUnits() {
@@ -91,10 +98,14 @@ public class EquipmentService {
     }
 
     public MaintainableUnit getUnitById(String id) {
-        return unitRepo.findById(id).orElse(null);
+        return unitRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Unit not found with ID: " + id));
     }
 
     public void deleteUnit(String id) {
+        if (!unitRepo.existsById(id)) {
+            throw new RuntimeException("Delete failed: Unit ID " + id + " not found");
+        }
         unitRepo.deleteById(id);
     }
 

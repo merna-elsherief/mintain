@@ -1,6 +1,7 @@
 package com.example.mint.controller;
 
 import com.example.mint.entity.*;
+import com.example.mint.dto.EquipmentDTO;
 import com.example.mint.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,46 @@ import java.util.List;
 public class EquipmentController {
 
     @Autowired private EquipmentService service;
+
+    @GetMapping("/equipment")
+    public List<EquipmentDTO> getAllEquipments() {
+        return service.getAllEquipmentsOnly();
+    }
+
+    @GetMapping("/equipment/{id}")
+    public EquipmentDTO getEquip(@PathVariable String id) {
+        return service.getEquipById(id);
+    }
+
+    @PostMapping("/equipment")
+    public EquipmentDTO addEquip(@RequestBody MaintainableUnit e) {
+        return service.saveEquipment(e);
+    }
+
+    @PutMapping("/equipment/{id}")
+    public EquipmentDTO updateEquip(@PathVariable String id, @RequestBody EquipmentDTO dto) {
+        return service.updateEquipment(id, dto);
+    }
+
+    @GetMapping("/models")
+    public List<MaintainableUnit> getAllModels() {
+        return service.getAllModelsOnly();
+    }
+
+    @GetMapping("/models/{id}")
+    public MaintainableUnit getModel(@PathVariable String id) {
+        return service.getUnitById(id);
+    }
+
+    @PostMapping("/models")
+    public MaintainableUnit addModel(@RequestBody MaintainableUnit m) {
+        return service.saveModel(m);
+    }
+
+    @PutMapping("/models/{id}")
+    public MaintainableUnit updateModel(@PathVariable String id, @RequestBody MaintainableUnit m) {
+        return service.updateModel(id, m);
+    }
 
     @GetMapping("/types")
     public List<MaintainableUnitType> getTypes() {
@@ -38,60 +79,20 @@ public class EquipmentController {
         return "Type deleted successfully";
     }
 
-    @GetMapping("/models")
-    public List<MaintainableUnit> getAllModels() {
-        return service.getAllModelsOnly();
-    }
-
-    @GetMapping("/models/{id}")
-    public MaintainableUnit getModel(@PathVariable String id) {
-        return service.getUnitById(id);
-    }
-
-    @PostMapping("/models")
-    public MaintainableUnit addModel(@RequestBody MaintainableUnit m) {
-        return service.saveModel(m);
-    }
-
-    @PutMapping("/models/{id}")
-    public MaintainableUnit updateModel(@PathVariable String id, @RequestBody MaintainableUnit m) {
-        return service.updateModel(id, m);
-    }
-
-    @GetMapping("/equipment")
-    public List<MaintainableUnit> getAllEquipments() {
-        return service.getAllEquipmentsOnly();
-    }
-
-    @GetMapping("/equipment/{id}")
-    public MaintainableUnit getEquip(@PathVariable String id) {
-        return service.getUnitById(id);
-    }
-
-    @PostMapping("/equipment")
-    public MaintainableUnit addEquip(@RequestBody MaintainableUnit e) {
-        return service.saveEquipment(e);
-    }
-
-    @PutMapping("/equipment/{id}")
-    public MaintainableUnit updateEquip(@PathVariable String id, @RequestBody MaintainableUnit e) {
-        return service.updateEquipment(id, e);
-    }
-
     @GetMapping("/units")
     public List<MaintainableUnit> getAll() {
         return service.getAllUnits();
-    }
-
-    @GetMapping("/test-count")
-    public String getCount() {
-        return "Total records: " + service.countAll();
     }
 
     @DeleteMapping("/units/{id}")
     public String delete(@PathVariable String id) {
         service.deleteUnit(id);
         return "Unit deleted successfully";
+    }
+
+    @GetMapping("/test-count")
+    public String getCount() {
+        return "Total records: " + service.countAll();
     }
 
     @PostMapping("/manufacturers")

@@ -18,11 +18,15 @@ public class EquipmentDAO {
                 unit.getManufacturer(),
                 unit.getMainTypeId(),
                 unit.getEquipStatus(),
+                unit.getSite(),
+                unit.getTypeOfRate(),
                 unit.getSysDate()
         );
     }
 
     public MaintainableUnit mapToEntity(EquipmentDTO dto, MaintainableUnit entity) {
+        if (dto == null) return entity;
+
         entity.setUnitNo(dto.unitNo());
         entity.setUnitName(dto.unitName());
         entity.setParentId(dto.parentId());
@@ -30,6 +34,9 @@ public class EquipmentDAO {
         entity.setManufacturer(dto.manufacturer());
         entity.setMainTypeId(dto.mainTypeId());
         entity.setEquipStatus(dto.equipStatus());
+        entity.setSite(dto.site());
+        entity.setTypeOfRate(dto.typeOfRate());
+
         return entity;
     }
 }

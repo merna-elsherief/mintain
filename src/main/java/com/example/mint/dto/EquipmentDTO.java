@@ -1,6 +1,6 @@
 package com.example.mint.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public record EquipmentDTO(
         String id,
@@ -11,5 +11,7 @@ public record EquipmentDTO(
         String manufacturer,
         String mainTypeId,
         String equipStatus,
-        java.util.Date sysDate
+        String site,
+        String typeOfRate,
+        Date sysDate
 ) {}
